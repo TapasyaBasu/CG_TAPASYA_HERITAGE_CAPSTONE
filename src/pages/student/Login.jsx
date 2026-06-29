@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import logo from '../../assets/logo.png';
 import { getUsers, registerUser, resetStudentPassword } from '../../utils/storage';
 
 const GRADIENTS = [
@@ -274,13 +275,11 @@ export default function Login() {
       <div className="w-full max-w-md animate-slide-up">
 
         {/* Branding */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-4 shadow-2xl animate-float"
-            style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)' }}>
-            <GraduationCap className="w-10 h-10 text-white" />
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="inline-flex items-center justify-center mb-4 transition-all duration-300 hover:scale-105">
+            <img src={logo} alt="Corporates Guide" className="h-16 w-auto object-contain animate-float" />
           </div>
-          <h1 className="text-3xl font-bold gradient-text mb-1">ExamPro</h1>
-          <p className="text-slate-400 text-sm">Online Examination System</p>
+          <p className="text-slate-400 text-sm tracking-wider uppercase font-semibold">Online Examination System</p>
         </div>
 
         {/* Card */}

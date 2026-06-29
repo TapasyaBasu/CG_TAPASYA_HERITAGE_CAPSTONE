@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import logo from '../assets/logo.png';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -68,13 +69,9 @@ export default function Navbar() {
             {/* Logo */}
             <Link to={user?.role === 'admin' ? '/admin/dashboard' : '/student/exams'}
               className="flex items-center gap-2 sm:gap-3 group">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
-                <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              </div>
-              <div>
-                <span className="font-bold text-base sm:text-lg gradient-text">ExamPro</span>
-                <div className="text-[9px] sm:text-[10px] text-slate-500 -mt-0.5 font-medium tracking-wider uppercase">
+              <img src={logo} alt="Corporates Guide" className="h-8 sm:h-9 w-auto object-contain transition-all duration-300 group-hover:scale-105" />
+              <div className="border-l border-white/10 pl-2 sm:pl-3 py-1">
+                <div className="text-[9px] sm:text-[10px] text-slate-400 font-semibold tracking-wider uppercase">
                   {user?.role === 'admin' ? 'Admin Portal' : 'Student Portal'}
                 </div>
               </div>

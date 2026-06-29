@@ -1,6 +1,6 @@
-# React + Vite
+# CG Tapasya Heritage Capstone Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This repository contains the codebase for the CG Tapasya Heritage Capstone Project, built using React, Vite, and Tailwind CSS.
 
 Currently, two official plugins are available:
 
