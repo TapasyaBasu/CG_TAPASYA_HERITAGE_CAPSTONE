@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heritage Capstone — Project Flow</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f4ff; color: #1e293b; padding: 40px 24px; }
+    .cover { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0891b2 100%); border-radius: 20px; padding: 56px 48px; margin-bottom: 48px; color: #fff; text-align: center; box-shadow: 0 20px 60px rgba(79,70,229,0.35); }
+    .cover h1 { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.5px; }
+    .cover p  { margin-top: 10px; font-size: 1rem; opacity: 0.85; }
+    .badge { display: inline-block; margin: 6px 4px 0; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 999px; padding: 4px 14px; font-size: 0.8rem; font-weight: 600; }
+    .section { background: #fff; border-radius: 16px; padding: 36px 40px; margin-bottom: 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); page-break-inside: avoid; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+    .section-num { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+    .mermaid { display: flex; justify-content: center; overflow-x: auto; padding: 8px 0; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 4px; }
+    th { background: #f1f5f9; text-align: left; padding: 10px 14px; font-weight: 700; color: #475569; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 9px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    tr:last-child td { border-bottom: none; }
+    code { background: #f1f5f9; border-radius: 4px; padding: 2px 6px; font-size: 0.82rem; color: #4f46e5; font-family: monospace; }
+    .role-admin   { background:#ede9fe; color:#5b21b6; padding:2px 10px; border-radius:999px; font-weight:600; font-size:0.78rem; }
+    .role-student { background:#e0f2fe; color:#0369a1; padding:2px 10px; border-radius:999px; font-weight:600; font-size:0.78rem; }
+    .role-public  { background:#f0fdf4; color:#15803d; padding:2px 10px; border-radius:999px; font-weight:600; font-size:0.78rem; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .cover { border-radius: 0; }
+      .section { box-shadow: none; border: 1px solid #e2e8f0; }
+      .print-btn { display: none !important; }
+    }
+    .print-btn { position: fixed; bottom: 32px; right: 32px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; border: none; border-radius: 50px; padding: 14px 28px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(79,70,229,0.4); display: flex; align-items: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s; font-family: 'Inter', sans-serif; }
+    .print-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(79,70,229,0.5); }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🎓 Heritage Capstone</h1>
+  <p>Online Examination System — Complete Project Flow</p>
+  <div style="margin-top:18px">
+    <span class="badge">React + Vite</span>
+    <span class="badge">React Router v6</span>
+    <span class="badge">Context API</span>
+    <span class="badge">localStorage</span>
+    <span class="badge">Tailwind CSS</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">1</div><div class="section-title">Application Bootstrap</div></div>
+  <div class="mermaid">
+flowchart TD
+    A([Browser visits app]) --> B["main.jsx mounts React root"]
+    B --> C["App.jsx wraps ThemeProvider"]
+    C --> D["BrowserRouter wraps AuthProvider"]
+    D --> E["seedDefaultData seeds localStorage if empty"]
+    E --> F{Route matched?}
+    F -->|/ root| G[Redirect to /login]
+    F -->|/login| H[Login Page]
+    F -->|protected route| I["ProtectedRoute guard check"]
+    F -->|unknown path| G
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">2</div><div class="section-title">Authentication Flow</div></div>
+  <div class="mermaid">
+flowchart TD
+    A([Login Page]) --> B{User Action}
+    B -->|Sign In| C["AuthContext.login calls storage.login"]
+    B -->|Register| D["storage.registerUser new student account"]
+    B -->|Forgot Password| E["storage.resetStudentPassword verify username and full name"]
+    C --> F{Credentials valid?}
+    F -->|No| G[Show error toast]
+    F -->|Yes| H{User role?}
+    H -->|admin| I["Redirect to /admin/dashboard"]
+    H -->|student| J["Redirect to /student/exams"]
+    D --> K["Auto-login to /student/exams"]
+    E --> L["Password updated — login again"]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">3</div><div class="section-title">ProtectedRoute Guard</div></div>
+  <div class="mermaid">
+flowchart TD
+    A([Any protected URL]) --> B[ProtectedRoute component]
+    B --> C{Loading?}
+    C -->|Yes| D[Spinner shown]
+    C -->|No| E{user in AuthContext?}
+    E -->|No| F["Redirect to /login"]
+    E -->|Yes| G{role matches route?}
+    G -->|No| H{user.role?}
+    H -->|admin| I["Redirect to /admin/dashboard"]
+    H -->|student| J["Redirect to /student/exams"]
+    G -->|Yes| K["Render children"]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">4</div><div class="section-title">Student Exam Flow</div></div>
+  <div class="mermaid">
+flowchart LR
+    A(["/student/exams ExamList"]) -->|Click exam| B["/student/exam/:id/start StartExam"]
+    B -->|Confirm Start| C["/student/exam/:id/test ExamInterface"]
+    C -->|Answer Qs and Timer| C
+    C -->|Submit or Timer ends| D["saveResult to localStorage"]
+    D --> E["/student/exam/:id/result ResultPage"]
+    E -->|View score and badge| F([Back to Exam List])
+  </div>
+  <div class="mermaid" style="margin-top:24px">
+flowchart TD
+    A["Load exam + questions"] --> B["Per-question timer optional countdown"]
+    B --> C{Time up?}
+    C -->|Yes| D["Auto-advance to next question"]
+    C -->|No| E["Student selects option"]
+    E --> F["Navigate question"]
+    F --> B
+    D --> G{Last question?}
+    E --> G
+    G -->|No| B
+    G -->|Yes| H["Submit and save result"]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">5</div><div class="section-title">Admin Flow</div></div>
+  <div class="mermaid">
+flowchart LR
+    A(["/admin/dashboard AdminDashboard"]) --> B["/admin/exam/create CreateExam"]
+    A --> C["/admin/exam/:id/edit CreateExam"]
+    A --> D["/admin/exam/:id/questions ManageQuestions"]
+    A --> E["/admin/results ViewResults"]
+    B -->|Save| F["saveExam to localStorage"]
+    C -->|Update| F
+    D -->|Add or Edit or Delete Q| G["saveQuestion or deleteQuestion"]
+    E -->|Read| H["getResults from localStorage"]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">6</div><div class="section-title">Data Layer — localStorage</div></div>
+  <div class="mermaid">
+flowchart TD
+    subgraph LS ["localStorage — utils/storage.js"]
+        U[("oes_users")]
+        EX[("oes_exams")]
+        Q[("oes_questions")]
+        R[("oes_results")]
+        CU[("oes_current_user")]
+    end
+    subgraph Student
+        SL["Login"] --> CU
+        SE["ExamList"] --> EX
+        SI["ExamInterface"] --> Q
+        SR["saveResult"] --> R
+        RP["ResultPage"] --> R
+    end
+    subgraph Admin
+        AD["Dashboard"] --> EX
+        CE["CreateExam"] --> EX
+        MQ["ManageQuestions"] --> Q
+        VR["ViewResults"] --> R
+    end
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">7</div><div class="section-title">Component Hierarchy</div></div>
+  <div class="mermaid">
+flowchart TD
+    A["main.jsx"] --> B["App.jsx"]
+    B --> C["ThemeProvider"]
+    C --> D["BrowserRouter"]
+    D --> E["AuthProvider"]
+    E --> F["Routes"]
+    F --> G["Navbar"]
+    F --> H["ProtectedRoute"]
+    H --> I["Page Components"]
+    I --> I1["ExamList"]
+    I --> I2["StartExam"]
+    I --> I3["ExamInterface"]
+    I --> I4["ResultPage"]
+    I --> I5["AdminDashboard"]
+    I --> I6["CreateExam"]
+    I --> I7["ManageQuestions"]
+    I --> I8["ViewResults"]
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">8</div><div class="section-title">Context / Global State</div></div>
+  <table>
+    <thead><tr><th>Context</th><th>Provides</th><th>Used By</th></tr></thead>
+    <tbody>
+      <tr><td><code>AuthContext</code></td><td><code>user</code>, <code>login()</code>, <code>logout()</code>, <code>loading</code></td><td>ProtectedRoute, Navbar, all pages</td></tr>
+      <tr><td><code>ThemeContext</code></td><td><code>theme</code>, <code>toggleTheme()</code></td><td>Navbar, global CSS</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-header"><div class="section-num">9</div><div class="section-title">Full Route Map</div></div>
+  <table>
+    <thead><tr><th>Path</th><th>Component</th><th>Role Required</th></tr></thead>
+    <tbody>
+      <tr><td><code>/</code></td><td>→ redirect <code>/login</code></td><td><span class="role-public">Public</span></td></tr>
+      <tr><td><code>/login</code></td><td>Login</td><td><span class="role-public">Public</span></td></tr>
+      <tr><td><code>/student/exams</code></td><td>ExamList</td><td><span class="role-student">student</span></td></tr>
+      <tr><td><code>/student/exam/:id/start</code></td><td>StartExam</td><td><span class="role-student">student</span></td></tr>
+      <tr><td><code>/student/exam/:id/test</code></td><td>ExamInterface</td><td><span class="role-student">student</span></td></tr>
+      <tr><td><code>/student/exam/:id/result</code></td><td>ResultPage</td><td><span class="role-student">student</span></td></tr>
+      <tr><td><code>/admin/dashboard</code></td><td>AdminDashboard</td><td><span class="role-admin">admin</span></td></tr>
+      <tr><td><code>/admin/exam/create</code></td><td>CreateExam</td><td><span class="role-admin">admin</span></td></tr>
+      <tr><td><code>/admin/exam/:id/edit</code></td><td>CreateExam</td><td><span class="role-admin">admin</span></td></tr>
+      <tr><td><code>/admin/exam/:id/questions</code></td><td>ManageQuestions</td><td><span class="role-admin">admin</span></td></tr>
+      <tr><td><code>/admin/results</code></td><td>ViewResults</td><td><span class="role-admin">admin</span></td></tr>
+      <tr><td><code>*</code></td><td>→ redirect <code>/login</code></td><td><span class="role-public">Public</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Save as PDF</button>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#4f46e5',
+      primaryTextColor: '#fff',
+      primaryBorderColor: '#4338ca',
+      lineColor: '#94a3b8',
+      secondaryColor: '#e0f2fe',
+      tertiaryColor: '#f1f5f9',
+      fontSize: '14px'
+    },
+    flowchart: { curve: 'basis', padding: 20 }
+  });
+</script>
+</body>
+</html>
